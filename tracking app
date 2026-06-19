@@ -1,0 +1,76 @@
+import { useState } from "react";
+
+function App() {
+  const [expenseName, setExpenseName] = useState("");
+  const [amount, setAmount] = useState("");
+  const [expenses, setExpenses] = useState([]);
+
+  const addExpense = () => {
+    if (expenseName === "" || amount === "") {
+      alert("Please fill all fields");
+      return;
+    }
+
+    const newExpense = {
+      name: expenseName,
+      amount: Number(amount),
+    };
+
+    setExpenses([...expenses, newExpense]);
+
+    setExpenseName("");
+    setAmount("");
+  };
+
+  const total = expenses.reduce(
+    (sum, expense) => sum + expense.amount,
+    0
+  );
+
+  return (
+    <div style={{ textAlign: "center", marginTop: "30px" }}>
+      <h1>Expense Tracker</h1>
+
+      <input
+        type="text"
+        placeholder="Expense Name"
+        value={expenseName}
+        onChange={(e) => setExpenseName(e.target.value)}
+      />
+
+      <br /><br />
+
+      <input
+        type="number"
+        placeholder="Amount"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+      />
+
+      <br /><br />
+
+      <button onClick={addExpense}>Add Expense</button>
+
+      <h2>Expense List</h2>
+
+      {expenses.map((expense, index) => (
+        <div
+          key={index}
+          style={{
+            border: "1px solid black",
+            width: "300px",
+            margin: "10px auto",
+            padding: "10px",
+          }}
+        >
+          <h3>{expense.name}</h3>
+          <p>₹{expense.amount}</p>
+        </div>
+      ))}
+
+      <h2>Total: ₹{total}</h2>
+    </div>
+  );
+}
+
+export default App;
